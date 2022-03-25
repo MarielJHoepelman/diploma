@@ -1,37 +1,22 @@
-# require "RMagick"
-#
-# img = Magick::ImageList.new("background.png")
-#
-# text = Magick::Draw.new
-# message = "Hello World"
-#
-# text.annotate(img, 0,0,0,0, text) do
-#   self.gravity = Magick::CenterGravity # Text positioning
-#   self.pointsize = 100 # Font size
-#   self.fill = "#1c1c1c" # Font color
-#   self.font = "AvenirNext-HeavyItalic.ttf" # Font file; needs to be absolute
-#   img.format = "jpeg"
-# end
-#
-# img.write("generated.jpg") # Destination image
-
-#!/usr/bin/env ruby
 
 require 'mini_magick'
+require 'parameterize'
 
-def create_image
-  caption = "I LOVE WALLPAPERZ!!!!!1"
-  # caption = "I HATE IMAGEMAGICK! I HATE IMAGEMAGICK!"
-  image = MiniMagick::Image.open("background.png")
+def create_image(name, event, date, speaker)
+  image = MiniMagick::Image.open("images/background.png")
   image.combine_options do |c|
-    c.font "AvenirNext-HeavyItalic.ttf"
-    c.fill "white"
+    c.font "fonts/Georgia-Bold-Italic.ttf"
+    c.fill "#2d3e64"
     c.pointsize 40
     c.gravity "center"
-    c.draw "text 0,300 '#{caption}'"
+    c.draw "text 0, -20 '#{name}'"
+    c.pointsize 25
+    c.draw "text 0, 68 '#{event}'"
+    c.draw "text 0, 94 '#{date}'"
+    c.draw "text 0, 170 '#{speaker}'"
   end
 
-  image.write "output.jpg"
+  image.write "output/#{name.parameterize}.jpg"
 end
 
-create_image
+create_image("Mariel Hoepelman", "Test event", Time.now, "Tood Bonzalez, PhD")
